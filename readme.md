@@ -13,6 +13,6 @@ ORCIDs of authors:
 - H.V. Gupta: 0000-0001-9855-2839
 - R. Loritz: 0000-0002-0540-6478
 
-More info on how to run this thing will follow as soon as final publication is ready. 
+More elaborate code annotations as well as extended readme on how to run this thing will follow soon. 
 
 Until then, please refer to the publication for descriptions of the workflow, as well as presentation and discussion of the results. 
