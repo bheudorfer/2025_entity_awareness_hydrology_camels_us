@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 29 14:12:17 2024
 
-@author: Benedikt Heudorfer
+@author: Benedikt Heudorfer, March 2025
+
+This code calculates the meteorological static features, i.e. the mean and standard
+deviation from the 15 meteorological dynamic features of the paper "Are Deep 
+Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025).. 
+
 """
 
+# packages
 import os
 import pandas as pd
 from scipy.stats import skew, kurtosis
@@ -17,7 +22,6 @@ pth_basins = "D:/07b_GRL_spinoff/data/CAMELS_US/basins_camels_us_531.txt"
 
 # path to save output results
 pth_results = "D:/07b_GRL_spinoff/data/CAMELS_US/basin_mean_forcing/"
-
 
 # load basin list
 basins = pd.read_csv(pth_basins, header=None).squeeze().tolist()
@@ -35,7 +39,8 @@ for i in range(len(pth_files)):
 del i, pth_files, tempID
 
     
-#%%
+#%% functions
+
 
 # Function to calculate mean and standard deviation for a single file
 def process_file(file_path, training_period):
@@ -64,7 +69,9 @@ def process_file(file_path, training_period):
     
     return [gauge_id] + means.tolist() + stds.tolist() + skews.tolist() + kurtoses.tolist()
 
-#%%
+
+#%% calculate meteo static features (execute above function)
+
 
 # Process all files and collect results
 results = [process_file(file, training_period=["1999-10-01", "2008-09-30"]) for file in pths_metdat]
