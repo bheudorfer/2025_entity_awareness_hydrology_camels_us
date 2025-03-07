@@ -4,7 +4,7 @@
 @author: Benedikt Heudorfer, March 2025
 
 This code is used to create, train, validate and test the <OOS-CAMELS> model variant 
-in the inference-only forect voer reduction scenario run from the paper "Are Deep 
+in the inference-only forect cover reduction scenario run from the paper "Are Deep 
 Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025). 
 The code is conceptualized to create regional/global rainfall-runoff model using a LSTM 
 network architecture. The code is in large parts a direct descendant of the code introduced 
