@@ -42,7 +42,7 @@ from cudalstm import CudaLSTM
 #%% Part 1.1 Initialize information
 
 
-# ----- k-fold experiment  ----------
+# ----- metstat experiment  ----------
 
 
 # Import dataset to use
