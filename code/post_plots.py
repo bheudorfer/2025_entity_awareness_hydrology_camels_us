@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 28 09:46:03 2024
 
-@author: gw3013
+@author: Benedikt Heudorfer, March 2025
+
+This code reproduces all figures (except mutual information figure S2) found in the 
+paper "Are Deep Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025).
+
 """
 
+# packages
 import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-import matplotlib as mpl
 import geopandas as gpd
 from scipy import stats
+from matplotlib.colors import ListedColormap
 import pickle
 import copy
 
+# paths
 pth_models = "D:/07b_GRL_spinoff/results/"
 pth_basins = "D:/07b_GRL_spinoff/data/CAMELS_US/basins_camels_us_531.txt"
 pth_coords = "D:/07b_GRL_spinoff/data/CAMELS_US/camels_attributes_v2.0/camels_topo.txt"
@@ -27,10 +32,6 @@ pth_plot = "D:/07b_GRL_spinoff/plots/"
 
 #%% functions
 
-
-# # for debugging
-# pth = pth_models
-# modelname="ablation"
 
 # Function to calculate NSE, R2, and KGE
 def calculate_scores(observed, simulated):
@@ -51,10 +52,6 @@ def calculate_scores(observed, simulated):
     return nse_score, kge_score, r, beta, gamma
 
 #--------------------------------------------------
-
-# data = all_data_i
-# num_iterations=100
-# sample_fraction=0.8
 
 # Bootstrapping function
 def bootstrap(data, num_iterations=100, sample_fraction=0.8):
@@ -80,10 +77,6 @@ def bootstrap(data, num_iterations=100, sample_fraction=0.8):
     return bootstrapped_scores
 
 #--------------------------------------------------
-
-# pth = pth_models
-# modelname="sumstat4"
-# mode="OOS"
 
 def get_bootstrapped_scores(pth, modelname, mode):
 
@@ -198,7 +191,6 @@ def get_bootstrapped_scores(pth, modelname, mode):
     # return(NSE, KGE, r, beta, gamma, all_NSE)
     return(out, all_NSE)
 
-
 #--------------------------------------------------
 
 def scoreplot(data, col, line="solid", alpha=1, fill=True, ax=None, medline=True):
@@ -264,9 +256,8 @@ ks, pval = stats.ks_2samp(NSEall_full_OOS, NSEall_sumstat2_OOS)
 print(f"EA_camels (OOS) vs. EA_meteo (OOS): KS Statistic={ks} / P-value: {pval}")
 
 
+#%%  Figure 1 (NSE)
 
-
-#%%  NSE
 
 fig, axs = plt.subplots(1, 2, figsize=(12, 5))
 
@@ -324,11 +315,8 @@ fig.tight_layout()
 fig.savefig(pth_plot+"scoreplot_NSE.pdf")
 
 
-#%% KGE short
+#%% Figure S1 (KGE)
 
-
-#--------------------------------------------------
-# KGE
 
 fig, axs = plt.subplots(1, 2, figsize=(12, 5))
 
@@ -385,7 +373,8 @@ fig.tight_layout()
 fig.savefig(pth_plot+"scoreplot_KGE.pdf")
 
 
-#%% KGE with details
+#%% KGE with details (not in paper)
+
 
 legend_lines_0 = [Line2D([0], [0], color='tab:blue'),
                   Line2D([0], [0], color='#14a7b8'),
@@ -393,7 +382,6 @@ legend_lines_0 = [Line2D([0], [0], color='tab:blue'),
 legend_lines_1 = [Line2D([0], [0], color='tab:blue', linestyle="dashed"),
                   Line2D([0], [0], color='#14a7b8', linestyle="dashed"),
                   Line2D([0], [0], color='tab:orange', linestyle="dashed")]
-
 
 #--------------------------------------------------
 # KGE
@@ -548,7 +536,8 @@ fig.savefig(pth_plot+"scoreplot_KGE_long.pdf")
 
 
 
-#%% map
+#%% Figure S3 (map)
+
 
 diff_IS = (pd.merge(scores_full_IS["NSE"].rename(columns={"MEDIAN":"full_IS"}).full_IS, 
                    scores_ablation_IS["NSE"].rename(columns={"MEDIAN":"ablation_IS"}).ablation_IS,
@@ -606,8 +595,6 @@ gdf_coords['class_diff_OOS'] = pd.cut(gdf_coords['diff_OOS'],
 gdf_coords['class_diff_OOS_meteo'] = pd.cut(gdf_coords['diff_OOS_meteo'], 
                                             bins=[-5,-1,-0.5,-0.25,0,0.25,0.5,1])
 
-from matplotlib.colors import ListedColormap
-
 # plot
 fig, axs = plt.subplots(3, 1, figsize=(12, 4*3))
 fig.suptitle("drop in NSE", fontweight="bold")
@@ -631,8 +618,6 @@ gdf_coords.plot(ax=axs[1], column='class_diff_OOS', cmap=cmap, legend=True)
 axs[1].set_xlim([-126, -61])  
 axs[1].set_ylim([24, 50]) 
 axs[1].get_xaxis().set_visible(False)
-# axs[1].legend(title="NSE")
-# legends = [c for c in axs[1].get_children() if isinstance(c, mpl.legend.Legend)]
 
 axs[2].set_title("$EA_{{CAMELS}} \Longrightarrow EA_{{meteo}}$ (OOS)")
 gdf_shape.plot(ax=axs[2], color='none', edgecolor='grey', alpha=0.7)
