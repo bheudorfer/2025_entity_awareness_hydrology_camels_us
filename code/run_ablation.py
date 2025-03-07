@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 14 13:20:59 2024
 
-@author: gw3013
+@author: Benedikt Heudorfer, March 2025
+
+This code is used to create, train, validate and test the <ABLATED> model variant from 
+the paper "Are Deep Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025). 
+The code is conceptualized to create regional/global rainfall-runoff model using a LSTM 
+network architecture. The code is in large parts a direct descendant of the code introduced 
+by Acuna Espinoza et al.,2024 ( https://doi.org/10.5194/hess-28-2705-2024 ), which 
+in turn is based on the Neural Hydrology package ( https://doi.org/10.21105/joss.04050 ).
+
 """
 
 #%%
@@ -137,15 +144,7 @@ for seedi in seeds:
     print("Batches in training: ", len(train_loader))
     sample = next(iter(train_loader))
     print(f'x_lstm: {sample["x_lstm"].shape} | y_obs: {sample["y_obs"].shape} | basin_std: {sample["basin_std"].shape}')
-    
-    # xx = sample["x_lstm"][0]
-    # xx = pd.DataFrame(xx.numpy())
-    # xx
-    
-    # yy = sample["y_obs"][0]
-    # yy = pd.DataFrame(yy.numpy())
-    # ID = 25
-    
+        
     
     #%% Part 3. Create dataset for validation
     
