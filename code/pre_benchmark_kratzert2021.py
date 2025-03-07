@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 
-Created on 19.09.2024
-@author: Benedikt Heudorfer
-
+@author: Benedikt Heudorfer, March 2025
 
 Code to unpack and subsequently summarize the scores of the benchmark model 
-from kratzert 2021 into a single csv for easy plotting later on 
+from kratzert 2021 into a single csv for easy plotting later on .
 
 The input data o this script is not included in the repository, but can be 
 downloaded from https://doi.org/10.4211/hs.474ecc37e7db45baa425cdb4fc1b61e1
