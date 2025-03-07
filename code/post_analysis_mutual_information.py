@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jan 31 11:32:48 2025
 
-@author: gw3013
+@author: Benedikt Heudorfer, March 2025
+
+This code contains the auxiliary mutual information analysis described in section 2.2 of 
+the paper "Are Deep Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025).
+
+The purpose of this pairwise mutual information analysis is, quote, "to analyse 
+the degree of shared information between the static features from the CAMELS dataset 
+and the static features derived summary statistics from dynamic features".
+
 """
 
+# packages
 import os
 import pandas as pd
 import numpy as np
@@ -13,7 +21,7 @@ import matplotlib.colors as mcolors
 from sklearn.metrics import mutual_info_score
 from sklearn.preprocessing import KBinsDiscretizer
 
-
+# paths
 pth0 = "D:/07b_GRL_spinoff/"
 pth_meteo_stat = pth0+"data/CAMELS_US/basin_mean_forcing/"
 pth_camels_stat = pth0+"data/CAMELS_US/camels_attributes_v2.0/"
@@ -22,7 +30,9 @@ pth_basins = pth0+"data/CAMELS_US/basins_camels_us_531.txt"
 # load list of basin ids
 basins = pd.read_csv(pth_basins, header=None, dtype=str).squeeze().to_list()
 
+
 #%% read CAMELS and METEO static attributes
+
 
 # read METEO
 stat_meteo = pd.read_csv(pth_meteo_stat+"all_sumstat_2.csv", sep=";")
@@ -76,6 +86,7 @@ stat_camels = stat_camels.loc[basins, static_input]
 
 #%% mutual information
 
+
 # Function to discretize data using binning
 def discretize_data(data, n_bins=10):
     est = KBinsDiscretizer(n_bins=n_bins, encode='ordinal', strategy='uniform')
@@ -99,7 +110,6 @@ stat_meteo_discretized = discretize_data(stat_meteo)
 # Calculate mutual information matrix with discretized data
 mi_matrix_discretized = calculate_mutual_information(stat_camels_discretized, 
                                                       stat_meteo_discretized)
-
 
 # Create row and column labels
 row_labels = list(stat_camels.columns)
