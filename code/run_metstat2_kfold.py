@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 14 13:20:59 2024
 
-@author: gw3013
+@author: Benedikt Heudorfer, March 2025
+
+This code is used to create, train, validate and test the <OOS-METEO> model variant from 
+the paper "Are Deep Learning Models in Hydrology Entity Aware?" by Heudorfer et al. (2025). 
+The code is conceptualized to create regional/global rainfall-runoff model using a LSTM 
+network architecture. The code is in large parts a direct descendant of the code introduced 
+by Acuna Espinoza et al.,2024 ( https://doi.org/10.5194/hess-28-2705-2024 ), which 
+in turn is based on the Neural Hydrology package ( https://doi.org/10.21105/joss.04050 ).
+
 """
 
 #%%
