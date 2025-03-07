@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Aug 23 14:38:15 2024
 
-@author: gw3013
+@author: Benedikt Heudorfer, March 2025
+
+This code segments the list of basin IDs into 5 folds to be used in 
+run_ablation_kfold.py, run_CAMELS_kfold.py, run_CAMELS_kfold_inftest_forest.py 
+and run_metstat2_kfold.py 
+
 """
 
+# packages
 import numpy as np
 import pandas as pd
 import os
 
+# function to create folder to export 
 def create_folder(folder_path: str):
     if not os.path.exists(folder_path):
         # Create the folder
@@ -17,12 +23,7 @@ def create_folder(folder_path: str):
     else:
         print(f"Folder '{folder_path}' already exists.")
 
-
-# pth_basinlist = "D:/07b_GRL_spinoff/data/CAMELS_US/basins_camels_us_531.txt"
-# n_folds=5
-# pth_out = "D:/07b_GRL_spinoff/data/folds/"
-
-
+# function to create n folds from the list of basin IDs
 def create_folds(pth_basinlist, n_folds, pth_out):
     
     seed=478
@@ -52,11 +53,8 @@ def create_folds(pth_basinlist, n_folds, pth_out):
                                         header=False, index=False)
         pd.DataFrame(folds[:,i]).to_csv(pth_outfolder+foldnames[i]+"_test.txt", 
                                         header=False, index=False)
-        
-        
-#%% execute
-
-
+          
+# execute
 create_folds(pth_basinlist = "D:/07b_GRL_spinoff/data/CAMELS_US/basins_camels_us_531.txt",
              n_folds=5, pth_out = "D:/07b_GRL_spinoff/data/folds/")
         
